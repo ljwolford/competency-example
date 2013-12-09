@@ -117,6 +117,7 @@ def getlogout():
 def gettest():
 	s = request.environ.get('beaker.session')
 	username = s.get('username',None)
+	fwkid = request.params.get('fwkid', None)
 	if not username:
 		redirect('/login')
 	theid = request.params.get('compid')
@@ -124,13 +125,14 @@ def gettest():
 		redirect('/')
 	
 	user = db.users.find_one({"username":username})
-	return template('./templates/test.tpl', compid=theid, user=username, email=user['email'])
+	return template('./templates/test.tpl', compid=theid, user=username, email=user['email'], fwkid=fwkid)
 
 @bottle.post('/test')
 def posttest():
 	theid = request.forms.get('compid')
 	s = request.environ.get('beaker.session')
 	username = s.get('username',None)
+	fwkid = request.forms.get('fwkid')
 	if not username:
 		redirect('/login')
 
@@ -172,8 +174,9 @@ def posttest():
 		achieved_data = {
 			'actor': {'mbox':user['email'], 'name':user['name']},
 			'verb': {'id': 'http://adlnet.gov/expapi/verbs/achieved', 'display':{'en-US': 'achieved'}},
-			'object':{'id': theid}
-			}	
+			'object':{'id': theid},
+			'context':{'contextActivities':{'parent':[{'id':fwkid}]}}
+			}
 		post_resp = requests.post(settings.LRS_STATEMENT_ENDPOINT, data=json.dumps(achieved_data), headers=settings.HEADERS, verify=False)
 		
 		setAchievement(theid, username)

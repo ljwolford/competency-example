@@ -63,7 +63,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading alert-info">
 					%end
-							<a href="./test?compid={{subcomp['encodedentry']}}" class="alert-link">{{subcomp['title']}}</a></div>
+							<a href="./test?compid={{subcomp['encodedentry']}}&fwkid={{fwk['encodedentry']}}" class="alert-link">{{subcomp['title']}}</a></div>
 							<div class="panel-body">
 								{{subcomp['description']}}
 							</div>
@@ -82,7 +82,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading alert-info">
 				%end
-						<a href="./test?compid={{comp['encodedentry']}}" class="alert-link">{{comp['title']}}</a></div>
+						<a href="./test?compid={{comp['encodedentry']}}&fwkid={{fwk['encodedentry']}}" class="alert-link">{{comp['title']}}</a></div>
 						<div class="panel-body">
 							{{comp['description']}}
 						</div>

@@ -51,6 +51,7 @@
 		<form role="form" method="post">
 			<div class="form-group">
 				<input type="hidden" name="compid" class="form-control" value={{compid}}>
+                <input type="hidden" name="fwkid" class="form-control" value={{fwkid}}>
 			</div>
 			<button type="submit" class="btn btn-default" id="sub">Submit</button>
 		</form>
