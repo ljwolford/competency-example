@@ -2,9 +2,9 @@ import base64
 
 LRS_STATEMENT_ENDPOINT = 'http://localhost:8000/xapi/statements'
 
-ENDPOINT_AUTH_USERNAME = 'tom'
+ENDPOINT_AUTH_USERNAME = 'test'
 
-ENDPOINT_AUTH_PASSWORD = '1234'
+ENDPOINT_AUTH_PASSWORD = 'password'
 
 AUTHORIZATION = "Basic %s" % base64.b64encode("%s:%s" % (ENDPOINT_AUTH_USERNAME, ENDPOINT_AUTH_PASSWORD))
 

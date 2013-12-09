@@ -1,5 +1,5 @@
 import bottle
-from bottle import run, request, response, redirect, template
+from bottle import run, request, response, redirect, template, static_file
 import json
 import datetime
 import base64
@@ -25,6 +25,18 @@ namespaces = {'cf': 'http://ns.medbiq.org/competencyframework/v1/',
 			  'lom': 'http://ltsc.ieee.org/xsd/LOM'}
 
 knownframeworkurls = set(['http://adlnet.gov/competency-framework/computer-science/basic-programming'])
+
+@bottle.route('/js/<filename>')
+def server_js(filename):
+    return static_file(filename, root='./js')
+
+@bottle.route('/verbs/<filename>')
+def server_verbs(filename):
+    return static_file(filename, root='./verbs')
+
+@bottle.route('/xapiwrapper/<filename>')
+def server_xapiwrapper(filename):
+    return static_file(filename, root='./xapiwrapper')
 
 @bottle.route('/', method='GET')
 @bottle.route('/', method='POST')
@@ -110,7 +122,9 @@ def gettest():
 	theid = request.params.get('compid')
 	if not theid:
 		redirect('/')
-	return template('./templates/test.tpl', compid=theid, user=username)
+	
+	user = db.users.find_one({"username":username})
+	return template('./templates/test.tpl', compid=theid, user=username, email=user['email'])
 
 @bottle.post('/test')
 def posttest():
