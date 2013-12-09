@@ -132,7 +132,8 @@ def gettest():
 	if fwkid == 'http://adlnet.gov/competency-framework/scorm/choosing-an-lms':
 		user = db.users.find_one({"username":username})
 		actor = {'mbox':user['email'], 'name':user['name']}
-		return template('./templates/demo_video.tpl', compid=theid, fwkid=fwkid, user=username, actor=json.dumps(actor), vidurl=settings.DEMO_VIDEOS[theid])
+		user = db.users.find_one({"username":username})
+		return template('./templates/demo_video.tpl', compid=theid, fwkid=fwkid, user=username, actor=json.dumps(actor), vidurl=settings.DEMO_VIDEOS[theid], email=user['email'])
 	return template('./templates/test.tpl', compid=theid, fwkid=fwkid, user=username)
 
 @bottle.post('/test')
@@ -151,7 +152,7 @@ def posttest():
 	actor = {'mbox':user['email'], 'name':user['name']}
 
 	# here would be some sort of evaluation
-	evaluated = reqeust.forms.get('evaluated', False)
+	evaluated = request.forms.get('evaluated', False)
 	
 	if not evaluated:
 		data = {
@@ -167,7 +168,7 @@ def posttest():
 	query_string = '?verb={0}&activity={1}&related_activities={2}'.format('http://adlnet.gov/expapi/verbs/passed', theid, 'true')
 
 	get_resp = requests.get(settings.LRS_STATEMENT_ENDPOINT + query_string , headers=settings.HEADERS, verify=False)
-
+	
 	results = json.loads(get_resp.content)
 	stmt_results = results['statements']
 
